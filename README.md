@@ -3,6 +3,7 @@ GUI written in Python to parse OSM (OpenStreetMap) files and render them onscree
 <hr>
 <p>This program allows a user to render OSM files within the GUI. The GUI enables the user to easily modify which layers are visible and the style of these layers.</p>
 <h1>Basic Demo Video</h1>
+<a href="https://www.youtube.com/watch?v=0ZPQwr0leys"><img src="https://img.youtube.com/vi/0ZPQwr0leys/0.jpg"></a>
 <h1>Steps</h1>
 <ol>
   <li>Download the source code open the program by typing <code>python main.py</code> in the command line.</li>
