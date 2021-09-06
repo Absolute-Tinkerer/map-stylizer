@@ -30,6 +30,10 @@ class Ui_MainWindow(object):
         self.pushButton_load.setMinimumSize(QtCore.QSize(100, 0))
         self.pushButton_load.setObjectName("pushButton_load")
         self.horizontalLayout_8.addWidget(self.pushButton_load)
+        self.pushButton_filter = QtWidgets.QPushButton(self.widget_4)
+        self.pushButton_filter.setMinimumSize(QtCore.QSize(100, 0))
+        self.pushButton_filter.setObjectName("pushButton_filter")
+        self.horizontalLayout_8.addWidget(self.pushButton_filter)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_8.addItem(spacerItem)
         self.pushButton_load_settings = QtWidgets.QPushButton(self.widget_4)
@@ -208,7 +212,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.button_bg_color.clicked.connect(MainWindow.bgColorBtnClicked)
-        self.pushButton_load.clicked.connect(MainWindow.loadOSMFile)
+        self.pushButton_load.clicked.connect(MainWindow.loadOSMFile) 
+        self.pushButton_filter.clicked.connect(MainWindow.filterOptions)
         self.pushButton_save.clicked.connect(MainWindow.saveImage)
         self.treeWidget_line_settings.itemSelectionChanged.connect(MainWindow.lineSelChanged)
         self.treeWidget_fill_settings.itemSelectionChanged.connect(MainWindow.fillSelChanged)
@@ -228,6 +233,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Map Stylizer"))
         self.pushButton_load.setText(_translate("MainWindow", "Load OSM File"))
+        self.pushButton_filter.setText(_translate("MainWindow", "Filter Options"))
         self.pushButton_load_settings.setText(_translate("MainWindow", "Load Settings"))
         self.pushButton_save.setText(_translate("MainWindow", "Save Image"))
         self.pushButton_reset.setText(_translate("MainWindow", "Reset Settings"))

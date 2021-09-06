@@ -80,6 +80,9 @@ class MapWidget(QWidget):
         self._map = Map(self.width(), self.height(), fname, self._config)
         self.update()
 
+    def getMap(self):
+        return self._map
+
     def saveImage(self, max_dim, fname):
         """
         """
