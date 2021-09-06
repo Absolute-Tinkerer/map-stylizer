@@ -85,6 +85,8 @@ class MainWindowHandlers(QMainWindow):
         """
         Button to set the selected line color clicked
         """
+        if not self._tree_line.selectedItems():
+            return
         item = self._tree_line.selectedItems()[0]
         text, ptext = item.text(0), item.parent().text(0)
         pen = self._config.getValue(c.DATA_GROUPS[ptext][text])
@@ -104,6 +106,9 @@ class MainWindowHandlers(QMainWindow):
         """
         The user has changed the width of the selected line
         """
+        if not self._tree_line.selectedItems():
+            return
+
         item = self._tree_line.selectedItems()[0]
         text, ptext = item.text(0), item.parent().text(0)
         pen = self._config.getValue(c.DATA_GROUPS[ptext][text])
@@ -117,6 +122,8 @@ class MainWindowHandlers(QMainWindow):
         """
         The user has changed the selected item's line style combo box
         """
+        if not self._tree_line.selectedItems():
+            return
         item = self._tree_line.selectedItems()[0]
         text, ptext = item.text(0), item.parent().text(0)
         pen = self._config.getValue(c.DATA_GROUPS[ptext][text])
@@ -132,6 +139,8 @@ class MainWindowHandlers(QMainWindow):
         """
         The user has changed the selected item's line cap combo box
         """
+        if not self._tree_line.selectedItems():
+            return
         item = self._tree_line.selectedItems()[0]
         text, ptext = item.text(0), item.parent().text(0)
         pen = self._config.getValue(c.DATA_GROUPS[ptext][text])
@@ -147,6 +156,8 @@ class MainWindowHandlers(QMainWindow):
         """
         The user has changed the selected item's join combo box
         """
+        if not self._tree_line.selectedItems():
+            return
         item = self._tree_line.selectedItems()[0]
         text, ptext = item.text(0), item.parent().text(0)
         pen = self._config.getValue(c.DATA_GROUPS[ptext][text])
@@ -161,6 +172,8 @@ class MainWindowHandlers(QMainWindow):
         """
         Button to set the selected fill color clicked
         """
+        if not self._tree_fill.selectedItems():
+            return
         item = self._tree_fill.selectedItems()[0]
         text, ptext = item.text(0), item.parent().text(0)
         color = self._colorPicker(self._config.getValue(
@@ -214,6 +227,7 @@ class MainWindowHandlers(QMainWindow):
         self._tree_fill.topLevelItem(0).setSelected(True)
 
         # Update the lists so we capture a config file's changes
+        self._current_file_tags = self._map.getMap().getAllTags()
         self._refreshLists()
 
         # Force the item metadata fields to update
@@ -286,6 +300,8 @@ class MainWindowHandlers(QMainWindow):
         """
         The user has changed which line item is selected
         """
+        if not self._tree_line.selectedItems():
+            return
         item = self._tree_line.selectedItems()[0]
 
         text = item.text(0)
@@ -323,6 +339,8 @@ class MainWindowHandlers(QMainWindow):
         """
         The user has changed which fill item is selected
         """
+        if not self._tree_fill.selectedItems():
+            return
         item = self._tree_fill.selectedItems()[0]
 
         text = item.text(0)
@@ -525,15 +543,31 @@ class MainWindowHandlers(QMainWindow):
             root = tree.invisibleRootItem()
             for i in range(root.childCount()):
                 pitem = root.child(i)
+                pitem.setDisabled(False)
+                should_disable_parent = True
                 for j in range(pitem.childCount()):
                     citem = pitem.child(j)
                     ptext, ctext = pitem.text(0), citem.text(0)
+
+                    # If currently loaded OSM data does not use this tag, disable it
+                    # without changing the check state (no reason to update their config)
+                    if ptext not in self._current_file_tags or ctext not in self._current_file_tags[ptext]:
+                        citem.setDisabled(True)
+                        continue
+                    else:
+                        citem.setDisabled(False)
+                        should_disable_parent = False
 
                     # Set the check state
                     if self._config.getItemState(c.DATA_GROUPS[ptext][ctext]):
                         citem.setCheckState(0, Qt.Checked)
                     else:
                         citem.setCheckState(0, Qt.Unchecked)
+                
+                # If there was nothing enabled in this parent, then we should disable the 
+                # parent too. Note that _tree_line/_tree_fill.selectedItems() can be empty
+                if should_disable_parent:
+                   pitem.setDisabled(True)
 
         # Unblock signals
         self._blockAllSignals(False)

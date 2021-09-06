@@ -252,6 +252,38 @@ class Map:
         p.fillRect(0, 0, xo, h, QColor(255, 255, 255))
         p.fillRect(w-xo, 0, xo, h, QColor(255, 255, 255))
 
+    def getAllTags(self):
+        """Returns all tags contained in the loaded OSM file. If no file loaded, 
+        returns an empty set. 
+
+        Returns:
+        --------
+        tags : Dict of all unique tags and unique tag values on ways/relations. Each value is a 
+               set of all values present for that tag. 
+
+               Example: {"highway": {"primary", "residential"}}
+        """
+
+        tags = {}
+        for ID in self._ways.keys():
+            way = self._ways[ID]
+            for tag_on_way in way.tags.keys():
+                if tag_on_way not in tags:
+                    tags[tag_on_way] = set()
+                tag_value = way.tags[tag_on_way]
+                tags[tag_on_way].add(tag_value)
+        
+        # Apparently nodes have no key/value, so move to relations
+        for ID in self._relations.keys():
+            relation = self._relations[ID]
+            for tag_on_relation in relation.tags.keys():
+                if tag_on_relation not in tags:
+                    tags[tag_on_relation] = set()
+                tag_value = relation.tags[tag_on_relation]
+                tags[tag_on_relation].add(tag_value)
+
+        return tags
+
     """
     ###########################################################################
                                 Private Functions
