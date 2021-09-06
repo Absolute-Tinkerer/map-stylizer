@@ -34,3 +34,11 @@ GUI written in Python to parse OSM (OpenStreetMap) files and render them onscree
   </ol>
   <li>Finally, in the configuration.py file, connect the CONFIG_STYLE to a QPen (for a layer to be rendered as a line) or QColor (for a layer to be rendered as a fill)</li>
 </ol>
+
+
+
+### Contributing
+
+To edit the GUI, use `cd src/gui/MainWindow` and run `pyuic5 mainwindow.ui > MainWindowUI.py`. If your 
+git commit shows the entire file changed, you have accidentally changed the line endings from CRLF mode, 
+so please change them back. You should only see a few lines changed in the py file

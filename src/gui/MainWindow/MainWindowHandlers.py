@@ -189,30 +189,6 @@ class MainWindowHandlers(QMainWindow):
             # Update the map
             self._map.update()
 
-    def filterOptions(self):
-        print("filter options")
-
-        # Block signals during updating
-        self._blockAllSignals(True)
-
-        # Iterate over the QTreeWidgets and set the proper checked state
-        for tree in [self._tree_line, self._tree_fill]:
-            root = tree.invisibleRootItem()
-            for i in range(root.childCount()):
-                pitem = root.child(i)
-                for j in range(pitem.childCount()):
-                    citem = pitem.child(j)
-                    ptext, ctext = pitem.text(0), citem.text(0)
-                    print(f'Found ptext={ptext} and ctext={ctext}')
-                    if not self._map.getMap().containsStyle(ptext, ctext):
-                        print(f'disabling item {pitem}>{citem}')
-                        citem.setDisabled(True)
-                        citem.setCheckState(0, Qt.Unchecked)
-
-        # Unblock signals
-        self._blockAllSignals(False)
-
-
     def loadOSMFile(self):
         """
         The user has clicked the button to load an OSM file
@@ -552,6 +528,27 @@ class MainWindowHandlers(QMainWindow):
                 for j in range(pitem.childCount()):
                     citem = pitem.child(j)
                     ptext, ctext = pitem.text(0), citem.text(0)
+                    print(f'Found ptext={ptext} and ctext={ctext}')
+                    if not self._map.getMap().containsStyle(ptext, ctext):
+                        print(f'disabling item {pitem}>{citem}')
+                        citem.setDisabled(True)
+                        citem.setCheckState(0, Qt.Unchecked)
+
+        # Iterate over the QTreeWidgets and set the proper checked state
+        for tree in [self._tree_line, self._tree_fill]:
+            root = tree.invisibleRootItem()
+            for i in range(root.childCount()):
+                pitem = root.child(i)
+                for j in range(pitem.childCount()):
+                    citem = pitem.child(j)
+                    ptext, ctext = pitem.text(0), citem.text(0)
+
+                    # If currently loaded OSM data does not use this tag, disable it
+                    if not self._map.getMap().containsStyle(ptext, ctext):
+                        print(f'disabling item {pitem}>{citem}')
+                        citem.setDisabled(True)
+                        # citem.setCheckState(0, Qt.Unchecked)
+                        continue
 
                     # Set the check state
                     if self._config.getItemState(c.DATA_GROUPS[ptext][ctext]):

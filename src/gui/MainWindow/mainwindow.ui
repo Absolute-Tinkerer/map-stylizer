@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>986</width>
-    <height>631</height>
+    <height>666</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -195,24 +195,6 @@
            </widget>
           </item>
           <item>
-           <widget class="QWidget" name="widget_gen_2" native="true">
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-            </layout>
-           </widget>
-          </item>
-          <item>
            <widget class="QWidget" name="widget_gen_3" native="true">
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <property name="leftMargin">
@@ -273,6 +255,11 @@
             <attribute name="headerVisible">
              <bool>false</bool>
             </attribute>
+            <column>
+             <property name="text">
+              <string notr="true">1</string>
+             </property>
+            </column>
            </widget>
           </item>
           <item>
@@ -440,6 +427,11 @@
             <attribute name="headerVisible">
              <bool>false</bool>
             </attribute>
+            <column>
+             <property name="text">
+              <string notr="true">1</string>
+             </property>
+            </column>
            </widget>
           </item>
           <item>
@@ -516,7 +508,7 @@
      <x>0</x>
      <y>0</y>
      <width>986</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
